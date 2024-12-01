@@ -12,15 +12,18 @@ Class-based views
     2. Add a URL to urlpatterns:  path('', Home.as_view(), name='home')
 Including another URLconf
     1. Import the include() function: from django.urls import include, path
-    2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
+    2. Add a URL to urlpatterns:  path('blog/', include('blog.urls')
 """
 from django.contrib import admin
 from django.urls import path, include
 from django.views.generic import TemplateView
+from fines_donations.views import success_view
+
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/', include('fines_donations.urls')),
     path('accounts/', include('allauth.urls')),  # Include allauth routes
-    path('', TemplateView.as_view(template_name='index.html'), name='home'),  # React home
+    path('', TemplateView.as_view(template_name='fines_donations/index.html'), name='home'),
+    path('success/', success_view, name='success'),
 ]

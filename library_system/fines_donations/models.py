@@ -1,7 +1,9 @@
+from django.core.exceptions import ValidationError
 from django.db import models
 from django.contrib.auth.models import User
 
 # Fines model to track user fines
+
 class Fine(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     amount = models.DecimalField(max_digits=10, decimal_places=2)
@@ -12,6 +14,7 @@ class Fine(models.Model):
 
     def __str__(self):
         return f"{self.user.username} - {self.amount}"
+
 
 # Donations model to track user donations
 class Donation(models.Model):
@@ -32,5 +35,12 @@ class Donation(models.Model):
         return f"Donation from {self.user.username} - {self.amount}"
 
 
+class Book(models.Model):
+    title = models.CharField(max_length=255)
+    author = models.CharField(max_length=255)
+    publication_year = models.IntegerField()
+    publisher = models.CharField(max_length=255)
+    bar_code = models.CharField(max_length=255)
 
-
+    def __str__(self):
+        return self.title

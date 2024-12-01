@@ -35,11 +35,12 @@ const Home = () => {
     };
 
     const handleLogout = () => {
-        // Log out user
-        axios.post('http://localhost:8000/accounts/logout/', {}, { withCredentials: true }).then(() => {
-            setUser(null); // Reset user state
-        });
-    };
+    // Log out user
+    axios.post('http://localhost:8000/accounts/logout/', {}, { withCredentials: true }).then(() => {
+        setUser(null); // Reset user state
+        window.location.href = '/'; // Redirect to home page
+    });
+};
 
     return (
         <div>
@@ -79,7 +80,7 @@ const Home = () => {
                     </form>
 
                     <h2>Or Log In with Google</h2>
-                    <a href="/accounts/google/login/">
+                    <a href="http://127.0.0.1:8000/accounts/google/login/">
                         <button type="button">Login with Google</button>
                     </a>
 

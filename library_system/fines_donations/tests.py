@@ -90,7 +90,8 @@ class DonationAPITest(APITestCase):
 
 class UserTestCase(TestCase):
     def setUp(self):
-        self.user = User.objects.create_user(username="testuser", email="testuser@example.com", password="testpassword123")
+        self.user = User.objects.create_user(username="testuser", email="testuser@example.com",
+                                             password="testpassword123")
 
     def test_user_creation(self):
         self.assertEqual(User.objects.count(), 1)

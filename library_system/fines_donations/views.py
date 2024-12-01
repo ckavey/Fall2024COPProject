@@ -1,3 +1,5 @@
+from django.shortcuts import render
+from django.contrib.auth.decorators import login_required
 from rest_framework import viewsets, status
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
@@ -11,10 +13,17 @@ from .serializers import FineSerializer, DonationSerializer
 # Initialize Stripe with secret key
 stripe.api_key = settings.STRIPE_SECRET_KEY
 
+
+@login_required
+def success_view(request):
+    return render(request, 'success.html')
+
+
 # ViewSet for Fine model
 class FineViewSet(viewsets.ModelViewSet):
     queryset = Fine.objects.all()
     serializer_class = FineSerializer
+
 
 # ViewSet for Donation model
 class DonationViewSet(viewsets.ModelViewSet):
@@ -24,19 +33,16 @@ class DonationViewSet(viewsets.ModelViewSet):
     def get_serializer_context(self):
         return {'request': self.request}
 
+
 # API to handle Stripe Payment Intent
 @api_view(['POST'])
 def create_payment_intent(request):
     try:
-        # Get the amount from the request data
         amount = request.data.get('amount')
         if not amount:
             return Response({'error': 'Amount is required.'}, status=status.HTTP_400_BAD_REQUEST)
 
-        # Convert the amount to cents
         amount_in_cents = int(float(amount) * 100)
-
-        # Create PaymentIntent
         intent = stripe.PaymentIntent.create(
             amount=amount_in_cents,
             currency='usd',
@@ -45,6 +51,7 @@ def create_payment_intent(request):
         return Response({'clientSecret': intent['client_secret']})
     except stripe.error.StripeError as e:
         return Response({'error': str(e)}, status=status.HTTP_400_BAD_REQUEST)
+
 
 # API to handle user signup
 @api_view(['POST'])
@@ -61,3 +68,6 @@ def signup(request):
     user = User.objects.create_user(username=email, email=email, password=password)
     user.save()
     return Response({'message': 'User created successfully!'}, status=status.HTTP_201_CREATED)
+
+
+

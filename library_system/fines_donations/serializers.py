@@ -2,6 +2,7 @@ from rest_framework import serializers
 from django.utils.timezone import now
 from .models import Fine, Donation
 
+
 # Serializer for the Fine model
 class FineSerializer(serializers.ModelSerializer):
     class Meta:
@@ -12,6 +13,7 @@ class FineSerializer(serializers.ModelSerializer):
         if value < now().date():
             raise serializers.ValidationError("Due date cannot be in the past.")
         return value
+
 
 # Serializer for the Donation model
 class DonationSerializer(serializers.ModelSerializer):
