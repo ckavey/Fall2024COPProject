@@ -17,7 +17,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from django.views.generic import TemplateView
-from fines_donations.views import success_view
+from fines_donations.views import success_view, profile_view, settings_view
 
 
 urlpatterns = [
@@ -26,4 +26,6 @@ urlpatterns = [
     path('accounts/', include('allauth.urls')),  # Include allauth routes
     path('', TemplateView.as_view(template_name='fines_donations/index.html'), name='home'),
     path('success/', success_view, name='success'),
+    path('profile/', profile_view, name='profile'),
+    path('settings/', settings_view, name='settings'),
 ]

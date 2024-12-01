@@ -14,9 +14,18 @@ from .serializers import FineSerializer, DonationSerializer
 stripe.api_key = settings.STRIPE_SECRET_KEY
 
 
+
 @login_required
 def success_view(request):
     return render(request, 'success.html')
+
+
+def settings_view(request):
+    return render(request, 'settings.html')
+
+
+def profile_view(request):
+    return render(request, 'profile.html')
 
 
 # ViewSet for Fine model
